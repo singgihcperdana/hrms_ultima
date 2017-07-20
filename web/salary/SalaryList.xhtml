@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+        <p:panel>          
+            Salary List
+        </p:panel>
+        <p:button id="btnNewSalary" value="Add New" icon="fa fa-plus" outcome="NewSalary"></p:button>
+        <h:form id="inputForm" onkeypress="return event.keyCode != 13;">
+            <p:panel>
+                <p:dataTable  id="salarysDataTable" var="salary" value="#{salaryListBean.salaryList}" 
+                              rowIndexVar="rowIndex"  rowKey="#{salary.ID}" selection="#{salaryListBean.selectedSalaries}" tableStyle="table-layout: auto;">
+
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="System ID" >
+                        <h:outputText value="#{salary.ID}" />                   
+                    </p:column>
+                    <p:column headerText="Department" >
+                        <h:outputText value="#{salary.department.getName()}" />                   
+                    </p:column>
+                    <p:column headerText="Job Grade">
+                        <h:outputText value="#{salary.grade.getGrade()}"/>
+                    </p:column>
+                    <p:column headerText="Job Level">
+                        <h:outputText value="#{salary.level.getLevel()}"/>
+                    </p:column>
+                    <p:column headerText="Position">
+                        <h:outputText value="#{salary.position.getTitle()}"/>
+                    </p:column>
+                </p:dataTable>   
+            </p:panel> 
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

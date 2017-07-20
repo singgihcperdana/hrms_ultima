@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" autoUpdate="true"/>            
+        <h:form id="inputForm" onkeypress="return event.keyCode !== 13;">
+            <p:panel header="Leave Request Approval">                
+                <p:menuButton value="Employee Leaves">
+                    <p:menuitem value="Approve" actionListener="#{pendingLeaveRequestItemsBean.approveSelectedRows()}" update="pendingEmployeesDataTable" />
+                    <p:menuitem value="Make Editable" actionListener="#{pendingLeaveRequestItemsBean.makeEditableByMaker}" update="pendingEmployeesDataTable" />
+                </p:menuButton>
+
+                <p:dataTable  id="pendingEmployeesDataTable" var="leaveRequest" value="#{pendingLeaveRequestItemsBean.pendingLeaveRequestItems}" paginatorPosition="top" rowIndexVar="rowIndex"  
+                              rowKey="#{leaveRequest.leaveID}" selection="#{pendingLeaveRequestItemsBean.selectedLeaveRequest}" scrollable="true"  scrollWidth="97%" scrollHeight="450" rows="10"   paginator="true"
+                              
+                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
+
+                    <f:facet name="header">
+                        Pending Leave Requested Data
+                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler  datasource="pendingEmployeesDataTable" trigger="toggler" />
+                    </f:facet>
+                    <p:column selectionMode="multiple" style="width:40px;text-align:center"/>
+
+                     <p:column style="width:40px">
+                        <p:rowToggler   />
+                    </p:column>
+                    <p:column  headerText="Leave ID" >
+                        <h:outputText value="#{leaveRequest.leaveID}" />                   
+
+                    </p:column>
+                    <p:column  headerText="Employee ID" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.employeeID}" />                   
+
+                    </p:column>
+                    <p:column  headerText="Employee First Name" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.firstName}" />                      
+
+                    </p:column>
+                    <p:column  headerText="Employee Middle Name" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.middleName}" />                      
+
+                    </p:column>
+                    <p:column  headerText="Employee Last Name" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.lastName}" />                         
+
+                    </p:column>                   
+                    <p:column  headerText="Gender" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.gender}" />                    
+
+                    </p:column>
+                   
+                    <p:column  headerText="Date of Employement" >
+                        <h:outputText value="#{leaveRequest.leaveRequestOwner.dateOfEmployement}" />                    
+
+                    </p:column>
+                     <p:column  headerText="Reason" >
+                        <h:outputText value="#{leaveRequest.reason}" />                    
+
+                    </p:column>
+                    
+
+                    <p:column  headerText="Approved By" >
+                        <h:outputText value="#{leaveRequest.approver_first_name}" />                    
+
+                    </p:column>                   
+                    <p:column  headerText="Leave Status" >
+                        <h:outputText value="#{leaveRequest.leave_status}" />                    
+
+                    </p:column>
+                      <p:column  headerText="Date To " >
+                          <h:outputText value="#{leaveRequest.date_to}" />                    
+
+                    </p:column>
+                     <p:column  headerText="Date From " >
+                         <h:outputText value="#{leaveRequest.date_from}" />                    
+
+                    </p:column>
+                     <p:column  headerText="Leave Appoved Date " >
+                         <h:outputText value="#{leaveRequest.approved_date}" />                    
+
+                    </p:column>
+                    <p:column  headerText="Maker" >
+                        <h:outputText value="#{leaveRequest.maker_user_id}" />                    
+
+                    </p:column>
+                    
+                    <p:column  headerText="Temp Status" >
+                        <h:outputText value="#{leaveRequest.maker_checker_status}" />                    
+
+                    </p:column>
+                    <p:rowExpansion >
+                        <p:panel rendered="#{leaveRequest.leaveRequestOwner.photoFileName}">                            
+                            <p:graphicImage   url="/resources/profile_photos/#{leaveRequest.leaveRequestOwner.photoFileName}" height="200" width="200"  />     
+                        </p:panel>
+                    </p:rowExpansion>
+
+                </p:dataTable>   
+            </p:panel> 
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+        <p:panel>          
+            Allowance Type List
+        </p:panel>
+        <p:button id="btnNewAllowanceType" value="Add New" icon="fa fa-plus" outcome="NewAllowanceType"></p:button>
+        <h:form id="inputForm" onkeypress="return event.keyCode != 13;">
+            <p:panel>
+                <p:dataTable  id="allowanceTypesDataTable" var="allowanceType" value="#{allowanceTypeListBean.allowanceTypeList}" 
+                              rowIndexVar="rowIndex"  rowKey="#{allowanceType.ID}" selection="#{allowanceTypeListBean.selectedAllowanceTypes}" tableStyle="table-layout: auto;">
+
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column  headerText="System ID" >
+                        <h:outputText value="#{allowanceType.ID}" />                   
+                    </p:column>
+                    <p:column   headerText="Description" >
+                        <h:outputText value="#{allowanceType.description}" />                   
+                    </p:column>
+                    <p:column headerText="Measurement Unit">
+                        <h:outputText value="#{allowanceType.measurementUnit}"/>
+                    </p:column>
+                </p:dataTable>   
+            </p:panel> 
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

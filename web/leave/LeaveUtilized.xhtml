@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+               template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        
+        <p:panel>   
+            <h:form>
+            <p:outputPanel deferred="true">
+        <h3>Available and Utilized Leaves </h3>
+        <p>HRM System</p>
+            </p:outputPanel>
+        </h:form>
+        </p:panel>
+        
+    
+        <h:form>
+            <p:dataTable var="car" value="#{dataGridViewLeave.leaveRequests}" rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+        <p:column headerText="Id">
+            <h:outputText value="#{car.id}" />
+        </p:column>
+ 
+        <p:column headerText="Available">
+            <h:outputText value="#{car.leaveType.title}" />
+        </p:column>
+                
+        <p:column headerText="Remaining">
+            <h:outputText value="#{car.date_to}" />
+        </p:column>
+ 
+        <p:column headerText="Calculated From">
+            <h:outputText value="#{car.date_from}" />
+        </p:column>
+ 
+        <p:column headerText="Calculated To">
+            <h:outputText value="#{car.date_to}" />
+        </p:column>
+ 
+        <p:column headerText="InCash">
+            <h:outputText value="#{car.date_from}" />
+        </p:column>
+                
+         <p:column headerText="Expirese?">
+            <h:outputText value="#{car.reason}" />
+        </p:column>
+    </p:dataTable>
+</h:form>
+    </ui:define>
+
+</ui:composition>

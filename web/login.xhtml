@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template2.xhtml">
+    
+    <ui:param name="bodyClass" value=""/>
+
+    <ui:define name="content">
+           
+        <p:graphicImage value="#{resource['images/dashen.jpg']}" style="text-align: center;"/>
+
+        <div class="card login-panel ui-fluid">
+            
+          <form action="#{request.contextPath}/login.xhtml" method="post"> 
+
+                <div class="ui-g">
+                    <div >    
+                       <h:outputText class="text-danger" value="Incorrect username and/or password." rendered="#{ param.error ne null}" />
+                   </div>
+                    <div >    
+                        <h:outputText value="You have been logged out." rendered="#{param.logout ne null}" />
+                    </div>
+                    <div class="ui-g-12">
+                        <p:graphicImage value="#{resource['ultima-layout:images/logo-ultima.svg']}"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <p:inputText id="username"/>
+                            <label>Username</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <p:password id="password" />
+                            <label>Password</label>
+                        </span>
+                    </div>
+                     <input type="hidden"                        
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    <div class="ui-g-12">
+                        <input type="submit" value="Sigin In"  class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left primary"/>          
+                        <p:button value="Forgot Password"  icon="ui-icon-help" styleClass="secondary"/>
+                    </div>
+                </div>
+               
+          </form>
+            
+        </div>
+
+        <div class="login-footer">PrimeFaces Ultima</div>
+    </ui:define>
+        <h:outputScript name="js/jquery.min.js" />
+        <h:outputScript name="js/bootstrap.min.js" />
+</ui:composition>       

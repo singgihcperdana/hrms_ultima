@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:growl id="messages" showDetail="true"  /> 
+        <p:panel>New Salary</p:panel>
+        <h:form id="inputForm" onkeypress="return event.keyCode != 13;">
+            <p:panel>
+                <p:panelGrid styleClass="inputGrid"  columnClasses="labelColumn,,labelColumn," columns="2">
+                    <h:outputText value="Department : "/>
+                    
+                    <h:panelGroup>
+                        <p:selectOneMenu id="departmentSelectOneMenu" style="width:250px" autoWidth="false" required="true" requiredMessage="Department must be selected."
+                                         value="#{newSalaryBean.newSalary.department.ID}" >
+                            <f:selectItem itemLabel="--Select Department--" itemValue=""/>
+                            <f:selectItems value ="#{newSalaryBean.departmentList}" />                               
+                        </p:selectOneMenu >
+                        <p:message  id="ms1" for="departmentSelectOneMenu" style="color:red; width: 280px" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                    <h:outputText value="Grade : "/>
+                    
+                    <h:panelGroup>
+                        <p:selectOneMenu id="jobGradeSelectOneMenu" style="width:250px" autoWidth="false" required="true" requiredMessage="Job grade must be selected."
+                                         value="#{newSalaryBean.newSalary.grade.ID}" >
+                            <f:selectItem itemLabel="--Select Job Grade--" itemValue=""/>
+                            <f:selectItems value ="#{newSalaryBean.jobGradeList}" />                               
+                        </p:selectOneMenu >
+                        <p:message  id="ms2" for="jobGradeSelectOneMenu" style="color:red; width: 280px" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                    <h:outputText value="Level : "/>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="jobLevelSelectOneMenu" style="width:250px" autoWidth="false" required="true" requiredMessage="Job level must be selected."
+                                         value="#{newSalaryBean.newSalary.level.ID}" >
+                            <f:selectItem itemLabel="--Select Job Level--" itemValue=""/>
+                            <f:selectItems value ="#{newSalaryBean.jobLevelList}" />                               
+                        </p:selectOneMenu >
+                        <p:message  id="ms3" for="jobLevelSelectOneMenu" style="color:red; width: 280px" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                    <h:outputText value="Position : "/>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="positionSelectOneMenu" style="width:250px" autoWidth="false" required="true" requiredMessage="Position must be selected."
+                                         value="#{newSalaryBean.newSalary.position.ID}" >
+                            <f:selectItem itemLabel="--Select Position--" itemValue=""/>
+                            <f:selectItems value ="#{newSalaryBean.positionList}" />                               
+                        </p:selectOneMenu >
+                        <p:message  id="ms4" for="positionSelectOneMenu" style="color:red; width: 280px" display="text"></p:message>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:panel>
+            <p:panel>          
+                <p:commandButton id ="btnSaveNewSalary" value="Save"  icon="fa fa-fw fa-save"
+                                   actionListener="#{newSalaryBean.btnSaveNewSalary_Handler}" update=":messages">
+                </p:commandButton>
+                <p:button id="btnCancelNewSalary" value="Cancel" icon="fa fa-times" outcome="SalaryList"></p:button>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

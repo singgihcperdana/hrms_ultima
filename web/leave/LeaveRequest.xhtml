@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:growl id="msgs" globalOnly="true" autoUpdate="true" showDetail="true"  />   
+            <h:form>
+            <p:outputPanel deferred="true">
+                <h3>Request Leave</h3>
+                <p>HRMS system</p>    
+                 Server's Time: <p:clock pattern="HH:mm:ss dd.MM.yyyy" />
+                 
+            </p:outputPanel>
+            </h:form>
+            
+           <p:graphicImage value="#{resource['images/dashen.jpg']}"/>
+
+        <h:form id="inputForm" onkeypress="return event.keyCode != 13;">
+           
+                <p:panelGrid styleClass=".inputGrid"  columnClasses="labelColumn,,labelColumn," columns="4" style=" font-size: 1em; top: 30px; left: 15px;  ">
+                    <h:outputText value="Leave Type : "/>
+                     <h:panelGroup>
+                     <p:selectOneMenu id="leaveSelect" required="true" style="width:250px" autoWidth="false" requiredMessage="Please select a type." validatorMessage="Leave Type can not be null."
+                                      value="#{leaveRequestBean.leaveModel.leaveType.ID}">
+                         <f:selectItem itemLabel="--Select Leave Type--" itemValue=""/>
+                        <f:selectItems value ="#{leaveRequestBean.leaveType}" /> 
+                     </p:selectOneMenu>
+                     <p:message id="ms0" for="leaveSelect" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                    <h:outputText value="EmployeeID : "/>
+                    <h:panelGroup>
+                        
+                        <p:selectOneMenu id="employeeSelect" required="true" style="width:250px" autoWidth="false" requiredMessage="Please select a type." validatorMessage="Leave Type can not be null."
+                                         value="#{leaveRequestBean.leaveModel.leaveRequestOwner.employeeSerialID}">
+                         <f:selectItem itemLabel="--Select Employee--" itemValue=""/>
+                         <f:selectItems value ="#{leaveRequestBean.employees}" /> 
+                     </p:selectOneMenu>
+                      
+                     <p:message id="ms1" for="employeeSelect" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                    <h:outputText value="Date From : "/>
+                    <h:panelGroup>
+                             <p:calendar required="true" readonlyInput="true" id="date_from" pattern="dd-MMM-yyyy" size="28" 
+                                value="#{leaveRequestBean.leaveModel.date_from}" requiredMessage="Date From cannot be empty." validatorMessage="A Valid Date Must be selected from the datepicker." >    
+                             </p:calendar>
+                             <p:message id="ms2" for="date_from" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                                      
+                     <h:outputText value="Date To : "/>
+                     <h:panelGroup>
+                             <p:calendar required ="true" requiredMessage="Date To cannot be empty." validatorMessage="Date To Must be selected from the datepicker."
+                                readonlyInput="true" id="date_to" pattern="dd-MMM-yyyy" size="28" 
+                                value="#{leaveRequestBean.leaveModel.date_to}" >    
+                             </p:calendar>
+                     <p:message id="ms3" for="date_to" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                     <h:outputText value="Number of Days "/>
+                     <p:inputNumber id="hours" style="width: 280px" 
+                                  value="#{leaveRequestBean.leaveModel.time_span_hours}" >    
+                         <p:ajax event="keyup" process="@this"  listener="#{leaveRequestBean.calculate_leavehours}"  update="numdays" />
+                    </p:inputNumber>
+                       IN HOURS = 
+                       <p:inputText readonly="true" disabled="true" id="numdays" style="width: 280px"
+                                  value="#{leaveRequestBean.leaveModel.time_span_hours}" >            
+                    </p:inputText>
+                    <h:outputText value="Approver First Name : "/>
+                    <h:panelGroup>
+                     <p:inputText required="true" id="app_f_name" style="width: 280px" requiredMessage="Approver First Name can not be empty." validatorMessage=""
+                                 value="#{leaveRequestBean.leaveModel.approver_first_name}" >            
+
+                    </p:inputText>
+                    <p:message id="ms4" for="app_f_name" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                     <h:outputText value="Approver Middle Name : "/>
+                     <h:panelGroup>
+                   <p:inputText  required="true" id="app_m_name" style="width: 280px"
+                                 value="#{leaveRequestBean.leaveModel.approver_middle_name}" 
+                                 requiredMessage="Approver Middle Name can't be empty." 
+                                 validatorMessage="">
+                                              <f:validateLength maximum="60" minimum="2"   ></f:validateLength>
+
+                    </p:inputText>
+                    <p:message id="ms5" for="app_m_name" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                      <h:outputText value="Approved Date "/>
+                     <h:panelGroup>
+                    <p:calendar required="true"  readonlyInput="true" id="approved_date" pattern="dd-MMM-yyyy" size="28" requiredMessage="Approved Date cannot be empty." validatorMessage="A Valid Date Must be selected from the datepicker."
+                                 value="#{leaveRequestBean.leaveModel.approved_date}" >    
+
+                    </p:calendar>
+          
+                    <p:message id="ms6" for="app_l_name" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                    
+                    
+                     <h:outputText value="Approver Last Name : "/>
+                     <h:panelGroup>
+                   <p:inputText required="true"  id="app_l_name" style="width: 280px" requiredMessage="Approver Middle Name can not be empty." 
+                                 validatorMessage=""
+                                 value="#{leaveRequestBean.leaveModel.approver_last_name}" >    
+                                             <f:validateLength maximum="60" minimum="2"   ></f:validateLength>
+                    </p:inputText>
+          
+                    <p:message id="ms7" for="app_l_name" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                
+                    <h:outputText value="Reason : "/>
+                    <h:panelGroup>
+                    <p:inputText required="true"  id="leave_reason" style="width: 280px"
+                                 value="#{leaveRequestBean.leaveModel.reason}" requiredMessage="Leave Reason can not be empty." 
+                                 validatorMessage="">            
+                      <f:validateLength maximum="250" minimum="2"></f:validateLength>
+                   </p:inputText>
+                    <p:message id="ms8" for="leave_reason" style="color:red" display="text"></p:message>
+                    </h:panelGroup>
+                   
+                </p:panelGrid>
+      
+      
+                <p:commandButton id ="btnSaveNewRequest" value="Save"  
+                                   icon="fa fa-fw fa-save" 
+                                   actionListener="#{leaveRequestBean.SaveNewLeaveRequest}" 
+                                   update=":msgs ms0 ms1 ms2 ms3 ms4 ms5 ms6 ms7 ms8 employeeSelect"> 
+                 </p:commandButton>
+    
+        </h:form>
+        
+        
+        <h:form id="form">
+         
+            <p:commandButton id ="btnRefreshList" value="Refresh"  icon="fa fa-fw fa-refresh" actionListener="#{dataGridViewLeave.refresh_leave}" process="@this" update=":msgs form:leaveRequestTable "> 
+            </p:commandButton> 
+
+       <p:growl id="msgs" showDetail="true"/>
+         <p:dataTable id="leaveRequestTable" var="leaveRequest" value="#{dataGridViewLeave.leaveRequests}"
+                         rows="10"
+                         rowKey="#{leaveRequest.leaveID}" 
+                         selection="#{dataGridViewLeave.selectedleaveRequest}" 
+                         rowSelectMode="multiple"
+                         paginator="true"
+                         rowIndexVar="rawIndex"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         editable="true" editMode="cell" widgetVar="cellCars">
+         
+           <p:ajax event="cellEdit" listener="#{dataGridViewLeave.onCellEdit}" update=":form:msgs" />
+    
+             <p:column headerText="Id">
+                 <h:outputText value="#{leaveRequest.leaveID}" />
+                 <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()" title="View Detail">
+                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                    <f:setPropertyActionListener value="#{leaveRequest}" target="#{dataGridViewLeave.selectedleaveRequest}" />
+                </p:commandLink> 
+            </p:column>
+            <p:column selectionMode="single" style="width:40px;text-align:center"/>
+
+            <p:column headerText="EMP_ID">
+                <h:outputText value="#{leaveRequest.leaveRequestOwner.employeeID}" />
+            </p:column>
+
+            <p:column headerText="From">
+                <h:outputText value="#{leaveRequest.date_from}" />
+                <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{leaveRequest.date_from}" /></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInput1" value="#{leaveRequest.date_from}" style="width:96%"/></f:facet>
+              </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="To">
+                <h:outputText value="#{leaveRequest.date_to}" />
+                <p:cellEditor>
+                  <f:facet name="output"><h:outputText value="#{leaveRequest.date_to}" /></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInput2" value="#{leaveRequest.date_to}" style="width:96%"/></f:facet>
+              </p:cellEditor>
+            </p:column>
+          <p:column headerText="Approved">
+                <h:outputText value="#{leaveRequest.approved_date}" />
+            </p:column> 
+          <p:column headerText="Status">
+              <h:outputText value="#{leaveRequest.approved_date}" />
+           </p:column> 
+          <p:column headerText="Type">
+                 <p:cellEditor>
+                     <f:facet name="output"><h:outputText value="#{leaveRequest.leaveType.title}" /></f:facet>
+                  <f:facet name="input"><p:inputText id="modelInput10" value="#{leaveRequest.leaveType}" style="width:96%"/></f:facet>
+              </p:cellEditor>
+           </p:column>  
+             <p:column headerText="Reason">
+                <h:outputText value="#{leaveRequest.reason}" />
+            </p:column> 
+            <p:column headerText="Authorize Action">
+                <p:commandButton id="submit" value="SUBMIT"  icon="fa fa-fw fa-check-square" actionListener="#{dataGridViewLeave.approveSelectedRows()}" process="@this" update=":msgs form:leaveRequestTable "> 
+                </p:commandButton> 
+            </p:column> 
+             
+          <p:contextMenu for="cars2" widgetVar="cMenu">   
+            <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCars').showCellEditor();return false;"/>  
+            <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+        </p:contextMenu> 
+ 
+        </p:dataTable>
+  
+        <p:dialog header="Leave Request Info" widgetVar="carDialog" modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="carDetail" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty dataGridViewLeave.selectedleaveRequest}" columnClasses="label,value">
+                    <h:outputText value="Id:" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.id}" />
+                     <h:outputText value="EmployeeSerialID" />
+                     <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.leaveRequestOwner.employeeID}" />
+                    <h:outputText value="DateFrom" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.date_from}" />
+                    <h:outputText value="DateTo" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.date_to}" />                                    
+                    <h:outputText value="LeaveType" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.leave_type}" />
+                    
+                     <h:outputText value="Leave Reason" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.reason}" />
+                    <h:outputText value="Approver First Name:" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.approver_first_name}"/>
+                    
+                    <h:outputText value="Approver Middle Name:" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.approver_middle_name}"/>
+                    
+                    <h:outputText value="Approver Last Name" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.approver_last_name}"/>
+
+                    <h:outputText value="APPROVED_DATE" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.approved_date}" />
+                    
+                   
+                    <h:outputText value="Maker/Checker Status" />
+                    <h:outputText value="#{dataGridViewLeave.selectedleaveRequest.approver_middle_name}" />
+                    
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+
+    </ui:define>
+
+</ui:composition>
+
+<!--
+ <h:outputText value="CHECKER_USER_ID" />
+                    <h:outputText value="$#{dataGridView.selectedleaveRequest.checker_user_id}" />
+                    
+                     <h:outputText value="MAKER_USER_ID" />
+                    <h:outputText value="$#{dataGridViewLeave.selectedleaveRequest.maker_user_id}" />
+  -->
